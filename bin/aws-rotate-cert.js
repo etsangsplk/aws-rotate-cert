@@ -3,13 +3,15 @@
 var async = require("async");
 var AWS = require("aws-sdk");
 var cloudfront = require("../lib/cloudfront");
+var elb = require("../lib/elb");
 var iam = require("../lib/iam");
 
-var old_cert_name = process.argv[2];
-var new_cert_name = process.argv[3];
+var region = process.argv[2];
+var old_cert_name = process.argv[3];
+var new_cert_name = process.argv[4];
 
-if (!old_cert_name || !new_cert_name) {
-  console.error("Usage: aws-rotate-cert <old-certificate-name> <new-certificate-name>");
+if (!region || !old_cert_name || !new_cert_name) {
+  console.error("Usage: aws-rotate-cert <region> <old-certificate-name> <new-certificate-name>");
   process.exit(1);
 }
 
@@ -24,6 +26,16 @@ async.auto({
     }
 
     cloudfront.update(results.distributions, results.certs.new.id, auto_cb);
+  }],
+  loadbalancers: ["certs", function(auto_cb, results) {
+    elb.list(region, results.certs.old.arn, auto_cb);
+  }],
+  update_loadbalancers: ["certs", "loadbalancers", function(auto_cb, results) {
+    if (results.loadbalancers.length === 0) {
+      return auto_cb(null, []);
+    }
+
+    elb.update(region, results.loadbalancers, results.certs.new.arn, auto_cb);
   }]
 }, function(auto_error, results) {
   if (auto_error) {
@@ -32,4 +44,5 @@ async.auto({
   }
 
   console.log("Updated %d Cloudfront distributions", results.update_distributions.length);
+  console.log("Updated %d Elastic Load Balancers", results.update_loadbalancers.length);
 });

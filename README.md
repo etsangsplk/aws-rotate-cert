@@ -12,9 +12,10 @@ Install aws-rotate-cert from NPM:
 
 `$ npm install -g aws-rotate-cert`
 
-Use aws-rotate-cert to rotate your old and new certificates:
+Use aws-rotate-cert to rotate your old and new certificates in the us-east-1 region:
 
 ```
-$ aws-rotate-cert example.org-2014-04-07 example.org-2015-05-21
+$ aws-rotate-cert us-east-1 example.org-2014-04-07 example.org-2015-05-21
 Updated 1 Cloudfront distributions
+Updated 1 Elastic Load Balancers
 ```
