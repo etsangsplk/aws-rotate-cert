@@ -1,6 +1,6 @@
 {
   "name": "aws-rotate-cert",
-  "version": "0.0.0",
+  "version": "1.0.0",
   "description": "Rotate an SSL certificate in AWS on all of your Cloudfront distributions and Elastic Load Balancers",
   "bin": "bin/aws-rotate-cert.js",
   "repository": {
