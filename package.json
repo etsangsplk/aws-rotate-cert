@@ -1,0 +1,20 @@
+{
+  "name": "aws-rotate-cert",
+  "version": "0.0.0",
+  "description": "Rotate an SSL certificate in AWS on all of your Cloudfront distributions and Elastic Load Balancers",
+  "bin": "bin/aws-rotate-cert.js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/jbuck/aws-rotate-cert.git"
+  },
+  "author": "Jon Buckley <jon@jbuckley.ca>",
+  "license": "Apache-2.0",
+  "bugs": {
+    "url": "https://github.com/jbuck/aws-rotate-cert/issues"
+  },
+  "homepage": "https://github.com/jbuck/aws-rotate-cert",
+  "dependencies": {
+    "async": "^1.0.0",
+    "aws-sdk": "^2.1.29"
+  }
+}
